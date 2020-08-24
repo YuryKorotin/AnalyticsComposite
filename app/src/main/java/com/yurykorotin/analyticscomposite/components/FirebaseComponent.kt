@@ -1,3 +1,7 @@
 package com.yurykorotin.analyticscomposite.components
 
-class FirebaseComponent(override var apiKey: String) : AnalyticsComponent
+import com.yurykorotin.analyticscomposite.events.ACBaseEvent
+
+abstract class  FirebaseComponent(override var apiKey: String) : AnalyticsComponent {
+    abstract fun logEvent(acBaseEvent: ACBaseEvent)
+}
