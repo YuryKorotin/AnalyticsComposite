@@ -1,5 +1,5 @@
 package com.yurykorotin.analyticscomposite.events
 
-import java.io.Serializable
+import android.os.Bundle
 
-interface ACEventMetaData: Serializable
+data class ACEventMetaData(val data: Bundle)
