@@ -2,26 +2,36 @@ package com.yurykorotin.analyticscomposite.components
 
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.yurykorotin.analyticscomposite.events.ACBaseEvent
-import com.yurykorotin.analyticscomposite.events.ScreenOpenEvent
-import com.yurykorotin.analyticscomposite.events.SimpleEvent
+import com.yurykorotin.analyticscomposite.AnalyticsParams
+import com.yurykorotin.analyticscomposite.events.*
 
 class FirebaseComponent(context: Context) : AnalyticsComponent {
 
-    val firebase = FirebaseAnalytics.getInstance(context)
+    private val firebaseService = FirebaseAnalytics.getInstance(context)
 
-    override fun trackEvent(acBaseEvent: ACBaseEvent) {
-        when (acBaseEvent) {
+    override fun trackEvent(event: ACBaseEvent) {
+        when (event) {
             is ScreenOpenEvent -> {
-                trackScreenEvent(acBaseEvent)
+                trackScreenEvent(event)
             }
             is SimpleEvent -> {
-                trackSimpleEvent(acBaseEvent)
+                trackSimpleEvent(event)
+            }
+
+            is UpdateUserPropertyEvent -> {
+                setUserProperty(event)
             }
         }
     }
 
-    private fun trackSimpleEvent(acBaseEvent: SimpleEvent) {
+    private fun setUserProperty(event: UpdateUserPropertyEvent) {
+        firebaseService.setUserProperty(AnalyticsParams.USER_ID,
+                event.acEventMetaData.info.getString(ACEventMetaData.USER_ID))
+        firebaseService.setUserProperty(AnalyticsParams.PROFILE_TYPE,
+                event.acEventMetaData.info.getString(ACEventMetaData.USER_ID))
+    }
+
+    private fun trackSimpleEvent(event: SimpleEvent) {
 
     }
 
