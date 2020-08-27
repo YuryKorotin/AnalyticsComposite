@@ -21,7 +21,18 @@ class FirebaseComponent(context: Context) : AnalyticsComponent {
             is UpdateUserPropertyEvent -> {
                 setUserProperty(event)
             }
+
+            is UserAuthEvent -> {
+                trackAuthEvent(event)
+            }
+
+            else ->
+                trackSimpleEvent(event as SimpleEvent)
         }
+    }
+
+    private fun trackAuthEvent(event: UserAuthEvent) {
+        firebaseService.logEvent(FirebaseAnalytics.Event.LOGIN, event.acEventMetaData.info)
     }
 
     private fun setUserProperty(event: UpdateUserPropertyEvent) {
@@ -32,10 +43,8 @@ class FirebaseComponent(context: Context) : AnalyticsComponent {
     }
 
     private fun trackSimpleEvent(event: SimpleEvent) {
-
+        firebaseService.logEvent(event.key, event.acEventMetaData.info)
     }
 
-    private fun trackScreenEvent(event: ScreenOpenEvent) {
-
-    }
+    private fun trackScreenEvent(event: ScreenOpenEvent) {}
 }
