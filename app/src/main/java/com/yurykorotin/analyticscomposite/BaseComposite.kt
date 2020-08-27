@@ -3,15 +3,9 @@ package com.yurykorotin.analyticscomposite
 import com.yurykorotin.analyticscomposite.components.AnalyticsComponent
 import com.yurykorotin.analyticscomposite.events.ACBaseEvent
 
-class BaseComposite(): AnalyticsComposite() {
-    private val components: MutableList<AnalyticsComponent> = mutableListOf()
-
-    override fun build(): AnalyticsComposite {
-        components.forEach { component ->
-            component.setup()
-        }
-        return this
-    }
+class BaseComposite (
+        private val components: MutableList<AnalyticsComponent> = mutableListOf()
+): AnalyticsComposite() {
 
     override fun trackEvent(acBaseEvent: ACBaseEvent) {
         components.forEach {component ->
@@ -19,9 +13,22 @@ class BaseComposite(): AnalyticsComposite() {
         }
     }
 
-    override fun addComponent(analyticsComponent: AnalyticsComponent): AnalyticsComposite {
-        components.add(analyticsComponent)
+    class CompositeBuilder {
+        private val components: MutableList<AnalyticsComponent> = mutableListOf()
 
-        return this
+        fun build(): AnalyticsComposite {
+            components.forEach { component ->
+                component.setup()
+            }
+
+            return BaseComposite(components)
+        }
+
+        fun addComponent(analyticsComponent: AnalyticsComponent): CompositeBuilder {
+            components.add(analyticsComponent)
+
+            return this
+        }
+
     }
 }
