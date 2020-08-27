@@ -17,10 +17,6 @@ class BaseComposite (
         private val components: MutableList<AnalyticsComponent> = mutableListOf()
 
         fun build(): AnalyticsComposite {
-            components.forEach { component ->
-                component.setup()
-            }
-
             return BaseComposite(components)
         }
 
@@ -29,6 +25,5 @@ class BaseComposite (
 
             return this
         }
-
     }
 }
