@@ -4,6 +4,7 @@ import android.app.Application
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
 import com.yurykorotin.analyticscomposite.events.ACBaseEvent
+import java.io.Serializable
 
 
 class AppMetricaComponent(application: Application,
@@ -17,5 +18,13 @@ class AppMetricaComponent(application: Application,
 
 
     override fun trackEvent(acBaseEvent: ACBaseEvent) {
+        val eventParameters: MutableMap<String, Serializable?> = HashMap()
+        val metaDataBundle = acBaseEvent.acEventMetaData.info
+
+        for (key in metaDataBundle.keySet()) {
+            eventParameters[key] = metaDataBundle.getSerializable(key)
+        }
+
+        YandexMetrica.reportEvent(acBaseEvent.key, eventParameters.toMap())
     }
 }
