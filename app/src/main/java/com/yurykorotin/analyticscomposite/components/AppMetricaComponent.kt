@@ -18,6 +18,10 @@ class AppMetricaComponent(application: Application,
 
 
     override fun trackEvent(acBaseEvent: ACBaseEvent) {
+        if (acBaseEvent.key.isEmpty()) {
+            return
+        }
+
         val eventParameters: MutableMap<String, Serializable?> = HashMap()
         val metaDataBundle = acBaseEvent.acEventMetaData.info
 
