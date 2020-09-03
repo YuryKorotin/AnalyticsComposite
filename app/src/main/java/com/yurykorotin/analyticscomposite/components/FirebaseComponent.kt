@@ -27,8 +27,12 @@ class FirebaseComponent(context: Context) : AnalyticsComponent {
             }
 
             else ->
-                trackSimpleEvent(event as SimpleEvent)
+                trackBaseEvent(event)
         }
+    }
+
+    private fun trackBaseEvent(event: ACBaseEvent) {
+        firebaseService.logEvent(event.key, event.acEventMetaData.info)
     }
 
     private fun trackAuthEvent(event: UserAuthEvent) {
