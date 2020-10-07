@@ -40,10 +40,7 @@ class FirebaseComponent(context: Context) : AnalyticsComponent {
     }
 
     private fun setUserProperty(event: UpdateUserPropertyEvent) {
-        firebaseService.setUserProperty(AnalyticsParams.USER_ID,
-                event.acEventMetaData.info.getString(ACEventMetaData.USER_ID))
-        firebaseService.setUserProperty(AnalyticsParams.PROFILE_TYPE,
-                event.acEventMetaData.info.getString(ACEventMetaData.USER_ID))
+        firebaseService.setUserProperty(event.name, event.value)
     }
 
     private fun trackSimpleEvent(event: SimpleEvent) {
