@@ -10,5 +10,9 @@ class AnalyticsParams {
 
     object Events {
         const val SCREEN_OPEN = "screen_open"
+
+        const val UPDATE_PROPERTY = "update_property"
+
+        const val AUTH = "auth"
     }
 }
