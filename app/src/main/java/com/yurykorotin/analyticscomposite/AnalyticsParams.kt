@@ -7,4 +7,8 @@ class AnalyticsParams {
 
         const val SCREEN_NAME = "screen_name"
     }
+
+    object Events {
+        const val SCREEN_OPEN = "screen_open"
+    }
 }

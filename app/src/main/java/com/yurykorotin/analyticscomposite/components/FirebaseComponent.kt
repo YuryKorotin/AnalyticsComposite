@@ -1,6 +1,7 @@
 package com.yurykorotin.analyticscomposite.components
 
 import android.content.Context
+import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.yurykorotin.analyticscomposite.AnalyticsParams
 import com.yurykorotin.analyticscomposite.events.*
@@ -47,5 +48,12 @@ class FirebaseComponent(context: Context) : AnalyticsComponent {
         firebaseService.logEvent(event.key, event.acEventMetaData.info)
     }
 
-    private fun trackScreenEvent(event: ScreenOpenEvent) {}
+    private fun trackScreenEvent(event: ScreenOpenEvent) {
+        val bundle = Bundle().apply {
+            putString(FirebaseAnalytics.Param.SCREEN_NAME,
+                    event.acEventMetaData.info.getString(AnalyticsParams.SCREEN_NAME))
+            putString(FirebaseAnalytics.Param.SCREEN_CLASS, "MainActivity")
+        }
+        firebaseService.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
+    }
 }
