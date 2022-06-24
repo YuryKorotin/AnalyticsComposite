@@ -30,7 +30,6 @@ android {
 
 dependencies {
     api "com.google.firebase:firebase-core:$firebaseVersion"
-    implementation "com.yandex.android:mobmetricalib:$metricaVersion"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
