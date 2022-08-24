@@ -15,10 +15,11 @@ class AppMetricaComponent(
         val config: YandexMetricaConfig = YandexMetricaConfig
             .newConfigBuilder(apiKey)
             .withLogs()
-            .build()
+           .build()
 
         YandexMetrica.activate(application.applicationContext, config)
         YandexMetrica.enableActivityAutoTracking(application)
+        YandexMetrica.setLocationTracking(false)
     }
 
     override fun trackEvent(acBaseEvent: ACBaseEvent) {
