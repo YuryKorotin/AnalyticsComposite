@@ -1,8 +1,8 @@
 package com.yurykorotin.analyticscomposite.components
 
 import android.app.Application
-//import com.yandex.metrica.YandexMetrica
-//import com.yandex.metrica.YandexMetricaConfig
+import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.YandexMetricaConfig
 import com.yurykorotin.analyticscomposite.events.ACBaseEvent
 import java.io.Serializable
 
@@ -12,14 +12,14 @@ class AppMetricaComponent(
 ) : AnalyticsComponent {
 
     init {
-        /*val config: YandexMetricaConfig = YandexMetricaConfig
+        val config: YandexMetricaConfig = YandexMetricaConfig
             .newConfigBuilder(apiKey)
             .withLogs()
            .build()
 
         YandexMetrica.activate(application.applicationContext, config)
         YandexMetrica.enableActivityAutoTracking(application)
-        YandexMetrica.setLocationTracking(false)*/
+        YandexMetrica.setLocationTracking(false)
     }
 
     override fun trackEvent(acBaseEvent: ACBaseEvent) {
@@ -34,6 +34,6 @@ class AppMetricaComponent(
             eventParameters[key] = metaDataBundle.getSerializable(key)
         }
 
-        //YandexMetrica.reportEvent(acBaseEvent.key, eventParameters.toMap())
+        YandexMetrica.reportEvent(acBaseEvent.key, eventParameters.toMap())
     }
 }
