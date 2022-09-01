@@ -34,6 +34,6 @@ class AppMetricaComponent(
             eventParameters[key] = metaDataBundle.getSerializable(key)
         }
 
-        //YandexMetrica.reportEvent(acBaseEvent.key, eventParameters.toMap())
+        YandexMetrica.reportEvent(acBaseEvent.key, eventParameters.toMap())
     }
 }
