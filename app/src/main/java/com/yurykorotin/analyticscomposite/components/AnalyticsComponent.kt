@@ -1,7 +1,9 @@
 package com.yurykorotin.analyticscomposite.components
 
-import com.yurykorotin.analyticscomposite.events.ACBaseEvent
+import com.yurykorotin.analyticscomposite.events.ecommerce.EcommerceBaseEvent
+import com.yurykorotin.analyticscomposite.events.AnalyticsBaseEvent
 
-interface AnalyticsComponent {
-    fun trackEvent(acBaseEvent: ACBaseEvent)
+abstract class AnalyticsComponent {
+    abstract fun trackEvent(acBaseEvent: AnalyticsBaseEvent)
+    open fun trackECommerceEvent(ecommerceBaseEvent: EcommerceBaseEvent) = Unit
 }

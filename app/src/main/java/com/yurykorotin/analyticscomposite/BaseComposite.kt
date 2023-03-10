@@ -1,15 +1,22 @@
 package com.yurykorotin.analyticscomposite
 
 import com.yurykorotin.analyticscomposite.components.AnalyticsComponent
-import com.yurykorotin.analyticscomposite.events.ACBaseEvent
+import com.yurykorotin.analyticscomposite.events.ecommerce.EcommerceBaseEvent
+import com.yurykorotin.analyticscomposite.events.AnalyticsBaseEvent
 
 class BaseComposite (
         private val components: MutableList<AnalyticsComponent> = mutableListOf()
 ): AnalyticsComposite() {
 
-    override fun trackEvent(acBaseEvent: ACBaseEvent) {
-        components.forEach {component ->
+    override fun trackEvent(acBaseEvent: AnalyticsBaseEvent) {
+        components.forEach { component ->
             component.trackEvent(acBaseEvent)
+        }
+    }
+
+    override fun trackEcommerceEvent(ecommerceEvent: EcommerceBaseEvent) {
+        components.forEach { component ->
+            component.trackECommerceEvent(ecommerceEvent)
         }
     }
 

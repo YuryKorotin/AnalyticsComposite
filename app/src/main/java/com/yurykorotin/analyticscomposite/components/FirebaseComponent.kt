@@ -6,11 +6,11 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.yurykorotin.analyticscomposite.AnalyticsParams
 import com.yurykorotin.analyticscomposite.events.*
 
-class FirebaseComponent(context: Context) : AnalyticsComponent {
+class FirebaseComponent(context: Context) : AnalyticsComponent() {
 
     private val firebaseService = FirebaseAnalytics.getInstance(context)
 
-    override fun trackEvent(event: ACBaseEvent) {
+    override fun trackEvent(event: AnalyticsBaseEvent) {
         when (event) {
             is ScreenOpenEvent -> {
                 trackScreenEvent(event)
@@ -32,7 +32,7 @@ class FirebaseComponent(context: Context) : AnalyticsComponent {
         }
     }
 
-    private fun trackBaseEvent(event: ACBaseEvent) {
+    private fun trackBaseEvent(event: AnalyticsBaseEvent) {
         firebaseService.logEvent(event.key, event.acEventMetaData.info)
     }
 
