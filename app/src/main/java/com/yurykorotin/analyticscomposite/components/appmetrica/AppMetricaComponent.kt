@@ -4,16 +4,13 @@ import android.app.Application
 import android.os.Bundle
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
-import com.yandex.metrica.ecommerce.ECommerceEvent
-import com.yandex.metrica.ecommerce.ECommerceOrder
-import com.yandex.metrica.ecommerce.ECommerceProduct
-import com.yandex.metrica.ecommerce.ECommerceReferrer
-import com.yandex.metrica.ecommerce.ECommerceScreen
-import com.yurykorotin.analyticscomposite.events.ACEventMetaData
+import com.yandex.metrica.ecommerce.*
 import com.yurykorotin.analyticscomposite.components.AnalyticsComponent
-import com.yurykorotin.analyticscomposite.events.ecommerce.EcommerceBaseEvent
+import com.yurykorotin.analyticscomposite.events.ACEventMetaData
 import com.yurykorotin.analyticscomposite.events.AnalyticsBaseEvent
+import com.yurykorotin.analyticscomposite.events.ecommerce.EcommerceBaseEvent
 import java.io.Serializable
+
 
 class AppMetricaComponent(
     application: Application,
@@ -62,34 +59,61 @@ class AppMetricaComponent(
 
     private fun createPurchaseEvent(info: Bundle): ECommerceEvent? {
         val id = info.getString(ACEventMetaData.ECOMMERCE_IDENTIFIER) ?: return null
-        val ecommerceOrder = ECommerceOrder(id, listOf())
+        val objectId = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_ID) ?: return null
+        val amount = info.getDouble(ACEventMetaData.ECOMMERCE_AMOUNT)
+        val unit = info.getString(ACEventMetaData.ECOMMERCE_UNIT) ?: return null
+        val eCommerceProduct = ECommerceProduct(objectId)
+        val eCommerceAmount = ECommerceAmount(amount, unit)
+        val eCommercePrice = ECommercePrice(eCommerceAmount)
+
+        val cartItems = listOf(
+            ECommerceCartItem(eCommerceProduct, eCommercePrice, 1)
+        )
+        val ecommerceOrder = ECommerceOrder(id, cartItems)
         return ECommerceEvent.purchaseEvent(ecommerceOrder)
     }
 
     private fun createBeginCheckoutEvent(info: Bundle): ECommerceEvent? {
         val id = info.getString(ACEventMetaData.ECOMMERCE_IDENTIFIER) ?: return null
-        val ecommerceOrder = ECommerceOrder(id, listOf())
-        return ECommerceEvent.beginCheckoutEvent(ecommerceOrder);
+        val objectId = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_ID) ?: return null
+        val amount = info.getDouble(ACEventMetaData.ECOMMERCE_AMOUNT)
+        val unit = info.getString(ACEventMetaData.ECOMMERCE_UNIT) ?: return null
+        val eCommerceProduct = ECommerceProduct(objectId)
+        val eCommerceAmount = ECommerceAmount(amount, unit)
+        val eCommercePrice = ECommercePrice(eCommerceAmount)
+
+        val cartItems = listOf(
+            ECommerceCartItem(eCommerceProduct, eCommercePrice, 1)
+        )
+
+        val ecommerceOrder = ECommerceOrder(id, cartItems)
+        return ECommerceEvent.beginCheckoutEvent(ecommerceOrder)
     }
 
     private fun createShowProductCardEvent(info: Bundle): ECommerceEvent? {
-        val name = info.getString(ACEventMetaData.ECOMMERCE_NAME) ?: return null
-        val ecommerceProduct = ECommerceProduct(name)
-        val ecommerceScreen = ECommerceScreen()
-            .setName(name)
+        val objectId = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_ID) ?: return null
+        val objectType = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_TYPE)
+        val ecommerceProduct = ECommerceProduct(objectId)
+        val ecommerceScreen = ECommerceScreen().apply {
+            name = objectId
+            categoriesPath = listOf(objectType)
+        }
         return ECommerceEvent.showProductCardEvent(ecommerceProduct, ecommerceScreen)
     }
 
-    private fun createShowScreenEvent(info: Bundle): ECommerceEvent {
-        val name = info.getString(ACEventMetaData.ECOMMERCE_NAME)
-        val ecommerceScreen = ECommerceScreen()
-            .setName(name)
+    private fun createShowScreenEvent(info: Bundle): ECommerceEvent? {
+        val objectId = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_ID) ?: return null
+        val objectType = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_TYPE)
+        val ecommerceScreen = ECommerceScreen().apply {
+                name = objectId
+                categoriesPath = listOf(objectType)
+            }
         return ECommerceEvent.showScreenEvent(ecommerceScreen)
     }
 
     private fun createShowProductDetailsEvent(info: Bundle): ECommerceEvent? {
-        val name = info.getString(ACEventMetaData.ECOMMERCE_NAME) ?: return null
-        val ecommerceProduct = ECommerceProduct(name)
+        val objectId = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_ID) ?: return null
+        val ecommerceProduct = ECommerceProduct(objectId)
         val ecommerceReferrer = ECommerceReferrer()
         return ECommerceEvent.showProductDetailsEvent(ecommerceProduct, ecommerceReferrer)
     }
