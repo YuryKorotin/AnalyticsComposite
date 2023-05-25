@@ -5,5 +5,6 @@ enum class ECommerceEvents {
     BeginCheckoutEvent,
     ShowProductCardEvent,
     ShowScreenEvent,
-    ShowProductDetailsEvent
+    ShowProductDetailsEvent,
+    AddProductEvent
 }
