@@ -52,6 +52,7 @@ class AppMetricaComponent(
                 ECommerceEvents.ShowProductCardEvent -> createShowProductCardEvent(data)
                 ECommerceEvents.ShowScreenEvent -> createShowScreenEvent(data)
                 ECommerceEvents.ShowProductDetailsEvent -> createShowProductDetailsEvent(data)
+                ECommerceEvents.AddProductEvent -> createAddProductEvent(data)
             } ?: return
             YandexMetrica.reportECommerce(event)
         }
@@ -116,6 +117,19 @@ class AppMetricaComponent(
         val ecommerceProduct = ECommerceProduct(objectId)
         val ecommerceReferrer = ECommerceReferrer()
         return ECommerceEvent.showProductDetailsEvent(ecommerceProduct, ecommerceReferrer)
+    }
+
+    private fun createAddProductEvent(info: Bundle): ECommerceEvent? {
+        val objectId = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_ID) ?: return null
+        val amount = info.getDouble(ACEventMetaData.ECOMMERCE_AMOUNT)
+        val unit = info.getString(ACEventMetaData.ECOMMERCE_UNIT) ?: return null
+        val eCommerceAmount = ECommerceAmount(amount, unit)
+        val eCommercePrice = ECommercePrice(eCommerceAmount)
+        val ecommerceProduct = ECommerceProduct(objectId)
+
+        val addedItem = ECommerceCartItem(ecommerceProduct, eCommercePrice, 1.0)
+
+        return ECommerceEvent.addCartItemEvent(addedItem)
     }
 
 }
