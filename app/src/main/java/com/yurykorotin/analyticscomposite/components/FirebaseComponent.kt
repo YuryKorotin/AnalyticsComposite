@@ -6,7 +6,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.yurykorotin.analyticscomposite.AnalyticsParams
 import com.yurykorotin.analyticscomposite.events.*
 
-class FirebaseComponent(context: Context) : AnalyticsComponent() {
+class FirebaseComponent(context: Context, id: String) : AnalyticsComponent(id) {
 
     private val firebaseService = FirebaseAnalytics.getInstance(context)
 

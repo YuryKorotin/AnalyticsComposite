@@ -13,20 +13,10 @@ import java.io.Serializable
 
 
 class AppMetricaComponent(
-    application: Application,
-    apiKey: String = ""
-) : AnalyticsComponent() {
-
-    init {
-        val config: YandexMetricaConfig = YandexMetricaConfig
-            .newConfigBuilder(apiKey)
-            .withLogs()
-           .build()
-
-        YandexMetrica.activate(application.applicationContext, config)
-        YandexMetrica.enableActivityAutoTracking(application)
-        YandexMetrica.setLocationTracking(false)
-    }
+    val application: Application,
+    val apiKey: String = "",
+    id: String
+) : AnalyticsComponent(id) {
 
     override fun trackEvent(acBaseEvent: AnalyticsBaseEvent) {
         if (acBaseEvent.key.isEmpty()) {
@@ -130,6 +120,17 @@ class AppMetricaComponent(
         val addedItem = ECommerceCartItem(ecommerceProduct, eCommercePrice, 1.0)
 
         return ECommerceEvent.addCartItemEvent(addedItem)
+    }
+
+    fun initializeMetrica() {
+        val config: YandexMetricaConfig = YandexMetricaConfig
+            .newConfigBuilder(apiKey)
+            .withLogs()
+            .build()
+
+        YandexMetrica.activate(application.applicationContext, config)
+        YandexMetrica.enableActivityAutoTracking(application)
+        YandexMetrica.setLocationTracking(false)
     }
 
 }
