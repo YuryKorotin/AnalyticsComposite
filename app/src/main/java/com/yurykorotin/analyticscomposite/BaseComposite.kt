@@ -20,6 +20,10 @@ class BaseComposite (
         }
     }
 
+    override fun findAnalyticsComponentById(id: String): AnalyticsComponent? {
+        return components.firstOrNull { it.id == id }
+    }
+
     class CompositeBuilder {
         private val components: MutableList<AnalyticsComponent> = mutableListOf()
 
