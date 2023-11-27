@@ -12,6 +12,8 @@ import com.yandex.metrica.ecommerce.ECommercePrice
 import com.yandex.metrica.ecommerce.ECommerceProduct
 import com.yandex.metrica.ecommerce.ECommerceReferrer
 import com.yandex.metrica.ecommerce.ECommerceScreen
+import com.yandex.metrica.profile.Attribute
+import com.yandex.metrica.profile.UserProfile
 import com.yurykorotin.analyticscomposite.components.AnalyticsComponent
 import com.yurykorotin.analyticscomposite.events.ACEventMetaData
 import com.yurykorotin.analyticscomposite.events.AnalyticsBaseEvent
@@ -31,7 +33,12 @@ class AppMetricaComponent(
             return
         }
         if (acBaseEvent is UpdateUserPropertyEvent) {
-            YandexMetrica.setUserProfileID(acBaseEvent.value)
+            val userId = acBaseEvent.value
+            val userProfile = UserProfile.newBuilder().apply(
+                Attribute.name().withValue(userId)
+            ).build()
+            YandexMetrica.setUserProfileID(userId)
+            YandexMetrica.reportUserProfile(userProfile);
             return
         }
 
