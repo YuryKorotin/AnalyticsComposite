@@ -4,10 +4,18 @@ import android.app.Application
 import android.os.Bundle
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
-import com.yandex.metrica.ecommerce.*
+import com.yandex.metrica.ecommerce.ECommerceAmount
+import com.yandex.metrica.ecommerce.ECommerceCartItem
+import com.yandex.metrica.ecommerce.ECommerceEvent
+import com.yandex.metrica.ecommerce.ECommerceOrder
+import com.yandex.metrica.ecommerce.ECommercePrice
+import com.yandex.metrica.ecommerce.ECommerceProduct
+import com.yandex.metrica.ecommerce.ECommerceReferrer
+import com.yandex.metrica.ecommerce.ECommerceScreen
 import com.yurykorotin.analyticscomposite.components.AnalyticsComponent
 import com.yurykorotin.analyticscomposite.events.ACEventMetaData
 import com.yurykorotin.analyticscomposite.events.AnalyticsBaseEvent
+import com.yurykorotin.analyticscomposite.events.UpdateUserPropertyEvent
 import com.yurykorotin.analyticscomposite.events.ecommerce.EcommerceBaseEvent
 import java.io.Serializable
 
@@ -20,6 +28,10 @@ class AppMetricaComponent(
 
     override fun trackEvent(acBaseEvent: AnalyticsBaseEvent) {
         if (acBaseEvent.key.isEmpty()) {
+            return
+        }
+        if (acBaseEvent is UpdateUserPropertyEvent) {
+            YandexMetrica.setUserProfileID(acBaseEvent.value)
             return
         }
 
