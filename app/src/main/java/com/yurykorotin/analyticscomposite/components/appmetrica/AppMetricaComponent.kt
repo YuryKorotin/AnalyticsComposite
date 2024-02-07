@@ -16,16 +16,16 @@ import com.yandex.metrica.profile.Attribute
 import com.yandex.metrica.profile.UserProfile
 import com.yurykorotin.analyticscomposite.components.AnalyticsComponent
 import com.yurykorotin.analyticscomposite.events.ACEventMetaData
+import com.yurykorotin.analyticscomposite.events.ACEventMetaData.Companion.USER_NAME
 import com.yurykorotin.analyticscomposite.events.AnalyticsBaseEvent
 import com.yurykorotin.analyticscomposite.events.UpdateUserPropertyEvent
 import com.yurykorotin.analyticscomposite.events.ecommerce.EcommerceBaseEvent
 import java.io.Serializable
 
-
 class AppMetricaComponent(
     val application: Application,
     val apiKey: String = "",
-    id: String
+    id: String,
 ) : AnalyticsComponent(id) {
 
     override fun trackEvent(acBaseEvent: AnalyticsBaseEvent) {
@@ -33,9 +33,11 @@ class AppMetricaComponent(
             return
         }
         if (acBaseEvent is UpdateUserPropertyEvent) {
+            val data = acBaseEvent.acEventMetaData.info
             val userId = acBaseEvent.value
+            val name = data.getString(USER_NAME)
             val userProfile = UserProfile.newBuilder().apply(
-                Attribute.name().withValue(userId)
+                Attribute.name().withValue(name ?: userId)
             ).build()
             YandexMetrica.setUserProfileID(userId)
             YandexMetrica.reportUserProfile(userProfile);
@@ -115,9 +117,9 @@ class AppMetricaComponent(
         val objectId = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_ID) ?: return null
         val objectType = info.getString(ACEventMetaData.ECOMMERCE_OBJECT_TYPE)
         val ecommerceScreen = ECommerceScreen().apply {
-                name = objectId
-                categoriesPath = listOf(objectType)
-            }
+            name = objectId
+            categoriesPath = listOf(objectType)
+        }
         return ECommerceEvent.showScreenEvent(ecommerceScreen)
     }
 
