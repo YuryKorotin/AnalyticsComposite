@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
 
 apply from: '../dependencies.gradle'
 
@@ -8,11 +10,11 @@ def firebaseVersion = '21.1.1'
 def metricaVersion = '5.2.0'
 
 android {
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdk
 
     defaultConfig {
-        minSdkVersion project.minSdkVersion
-        targetSdkVersion project.targetSdkVersion
+        minSdk project.minSdk
+        targetSdk project.targetSdk
         versionCode 1
         versionName "1.0"
 
