@@ -5,7 +5,7 @@ import com.yurykorotin.analyticscomposite.events.ecommerce.EcommerceBaseEvent
 import com.yurykorotin.analyticscomposite.events.AnalyticsBaseEvent
 
 class BaseComposite (
-        private val components: MutableList<AnalyticsComponent> = mutableListOf()
+    private val components: MutableList<AnalyticsComponent> = mutableListOf()
 ): AnalyticsComposite() {
 
     override fun trackEvent(acBaseEvent: AnalyticsBaseEvent) {

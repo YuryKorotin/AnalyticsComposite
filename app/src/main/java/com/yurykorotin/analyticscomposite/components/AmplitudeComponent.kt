@@ -4,9 +4,5 @@ import android.content.Context
 import com.yurykorotin.analyticscomposite.events.AnalyticsBaseEvent
 
 class AmplitudeComponent(context: Context, id: String) : AnalyticsComponent(id) {
-    override fun trackEvent(acBaseEvent: AnalyticsBaseEvent) {
-
-    }
-
-    //private val amplitudeService
+    override fun trackEvent(acBaseEvent: AnalyticsBaseEvent) {}
 }
