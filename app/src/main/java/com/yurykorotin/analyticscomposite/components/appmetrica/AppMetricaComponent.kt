@@ -2,24 +2,24 @@ package com.yurykorotin.analyticscomposite.components.appmetrica
 
 import android.app.Application
 import android.os.Bundle
-import com.yandex.metrica.YandexMetrica
-import com.yandex.metrica.YandexMetricaConfig
-import com.yandex.metrica.ecommerce.ECommerceAmount
-import com.yandex.metrica.ecommerce.ECommerceCartItem
-import com.yandex.metrica.ecommerce.ECommerceEvent
-import com.yandex.metrica.ecommerce.ECommerceOrder
-import com.yandex.metrica.ecommerce.ECommercePrice
-import com.yandex.metrica.ecommerce.ECommerceProduct
-import com.yandex.metrica.ecommerce.ECommerceReferrer
-import com.yandex.metrica.ecommerce.ECommerceScreen
-import com.yandex.metrica.profile.Attribute
-import com.yandex.metrica.profile.UserProfile
 import com.yurykorotin.analyticscomposite.components.AnalyticsComponent
 import com.yurykorotin.analyticscomposite.events.ACEventMetaData
 import com.yurykorotin.analyticscomposite.events.ACEventMetaData.Companion.USER_NAME
 import com.yurykorotin.analyticscomposite.events.AnalyticsBaseEvent
 import com.yurykorotin.analyticscomposite.events.UpdateUserPropertyEvent
 import com.yurykorotin.analyticscomposite.events.ecommerce.EcommerceBaseEvent
+import io.appmetrica.analytics.AppMetrica
+import io.appmetrica.analytics.AppMetricaConfig
+import io.appmetrica.analytics.ecommerce.ECommerceAmount
+import io.appmetrica.analytics.ecommerce.ECommerceCartItem
+import io.appmetrica.analytics.ecommerce.ECommerceEvent
+import io.appmetrica.analytics.ecommerce.ECommerceOrder
+import io.appmetrica.analytics.ecommerce.ECommercePrice
+import io.appmetrica.analytics.ecommerce.ECommerceProduct
+import io.appmetrica.analytics.ecommerce.ECommerceReferrer
+import io.appmetrica.analytics.ecommerce.ECommerceScreen
+import io.appmetrica.analytics.profile.Attribute
+import io.appmetrica.analytics.profile.UserProfile
 import java.io.Serializable
 
 class AppMetricaComponent(
@@ -39,8 +39,8 @@ class AppMetricaComponent(
             val userProfile = UserProfile.newBuilder().apply(
                 Attribute.name().withValue(name ?: userId)
             ).build()
-            YandexMetrica.setUserProfileID(userId)
-            YandexMetrica.reportUserProfile(userProfile);
+            AppMetrica.setUserProfileID(userId)
+            AppMetrica.reportUserProfile(userProfile);
             return
         }
 
@@ -51,7 +51,7 @@ class AppMetricaComponent(
             eventParameters[key] = metaDataBundle.getSerializable(key)
         }
 
-        YandexMetrica.reportEvent(acBaseEvent.key, eventParameters.toMap())
+        AppMetrica.reportEvent(acBaseEvent.key, eventParameters.toMap())
     }
 
     override fun trackECommerceEvent(ecommerceBaseEvent: EcommerceBaseEvent) {
@@ -65,7 +65,7 @@ class AppMetricaComponent(
                 ECommerceEvents.ShowProductDetailsEvent -> createShowProductDetailsEvent(data)
                 ECommerceEvents.AddProductEvent -> createAddProductEvent(data)
             } ?: return
-            YandexMetrica.reportECommerce(event)
+            AppMetrica.reportECommerce(event)
         }
     }
 
@@ -144,14 +144,14 @@ class AppMetricaComponent(
     }
 
     fun initializeMetrica() {
-        val config: YandexMetricaConfig = YandexMetricaConfig
+        val config = AppMetricaConfig
             .newConfigBuilder(apiKey)
             .withLogs()
             .build()
 
-        YandexMetrica.activate(application.applicationContext, config)
-        YandexMetrica.enableActivityAutoTracking(application)
-        YandexMetrica.setLocationTracking(false)
+        AppMetrica.activate(application.applicationContext, config)
+        AppMetrica.enableActivityAutoTracking(application)
+        AppMetrica.setLocationTracking(false)
     }
 
 }

@@ -5,9 +5,8 @@ plugins {
 
 apply from: '../dependencies.gradle'
 
-
 def firebaseVersion = '21.1.1'
-def metricaVersion = '5.2.0'
+def metricaVersion = '6.5.0'
 
 android {
     compileSdk project.compileSdk
@@ -42,7 +41,7 @@ android {
 
 dependencies {
     api "com.google.firebase:firebase-core:$firebaseVersion"
-    implementation("com.yandex.android:mobmetricalib:$metricaVersion")
+    implementation("io.appmetrica.analytics:analytics:$metricaVersion")
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
