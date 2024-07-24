@@ -1,0 +1,3 @@
+package com.yurykorotin.analyticscomposite.events
+
+interface AnalyticsEvent
