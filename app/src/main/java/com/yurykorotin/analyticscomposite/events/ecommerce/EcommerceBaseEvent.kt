@@ -1,10 +1,10 @@
 package com.yurykorotin.analyticscomposite.events.ecommerce
 
-import com.yurykorotin.analyticscomposite.ACBaseEvent
-import com.yurykorotin.analyticscomposite.components.appmetrica.ECommerceEvents
-import com.yurykorotin.analyticscomposite.events.ACEventMetaData
+import com.yurykorotin.analyticscomposite.events.AnalyticsEvent
+import com.yurykorotin.analyticscomposite.trackers.appmetrica.ECommerceEventKeys
+import com.yurykorotin.analyticscomposite.events.AnalyticsEventData
 
-interface EcommerceBaseEvent : ACBaseEvent {
-    val key: ECommerceEvents
-    val acEventMetaData: ACEventMetaData
+interface EcommerceBaseEvent : AnalyticsEvent {
+    val key: ECommerceEventKeys
+    val analyticsEventData: AnalyticsEventData
 }

@@ -1,3 +1,0 @@
-package com.yurykorotin.analyticscomposite
-
-interface ACBaseEvent

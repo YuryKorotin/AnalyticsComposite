@@ -1,8 +1,6 @@
 package com.yurykorotin.analyticscomposite.events
 
-import com.yurykorotin.analyticscomposite.ACBaseEvent
-
-interface AnalyticsBaseEvent : ACBaseEvent {
+interface AnalyticsBaseEvent : AnalyticsEvent {
     val key: String
-    val acEventMetaData: ACEventMetaData
+    val analyticsEventData: AnalyticsEventData
 }

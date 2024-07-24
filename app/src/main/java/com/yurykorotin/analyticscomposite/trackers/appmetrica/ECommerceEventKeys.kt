@@ -1,6 +1,6 @@
-package com.yurykorotin.analyticscomposite.components.appmetrica
+package com.yurykorotin.analyticscomposite.trackers.appmetrica
 
-enum class ECommerceEvents {
+enum class ECommerceEventKeys {
     PurchaseEvent,
     BeginCheckoutEvent,
     ShowProductCardEvent,
